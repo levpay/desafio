@@ -32,6 +32,7 @@ Através da API deve ser possível:
 - A pesquisa por um super também precisa conter:
     - lista de grupos em que tal super está associado
     - número de parentes
+    - Quantos dos parentes sao heróis/vilões
 
 ## Avaliação
 A ideia aqui é entender como você desenvolve através de multiplas funcionalidades.
