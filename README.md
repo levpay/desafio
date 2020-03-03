@@ -28,7 +28,6 @@ Através da API deve ser possível:
     - power
     - occupation
     - image
-    - work
 - A pesquisa por um super também precisa conter:
     - lista de grupos em que tal super está associado
     - número de parentes
