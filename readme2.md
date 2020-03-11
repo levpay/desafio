@@ -8,3 +8,13 @@
 3. Como desenhar a(s) tabela(s) para atender as funcionalidades
 4. Como manipular os dados de cada super para retornar os parentes e grupos associados.
 5. Entender como a pessoa busca os parentes e como ela os associa a heroi e vilao.
+
+# Avaliacao
+
+A avaliacao do desafio deve seguir os seguintes criterios:
+1. Testes estao passando?
+2. A app roda?
+3. A app funcionaria em alguma cloud?
+4. A arquitetura de pacotes faz sentido?
+5. Documentacao das rotas esta clara?
+
