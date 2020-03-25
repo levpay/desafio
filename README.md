@@ -1,11 +1,27 @@
-# SuperHero
+# Levpay
 
-## Contexto
-Para dar continuidade ao nosso processo temos um desafio! Gostamos muito de super heróis/vilões e queremos que você crie uma API para servir um jogo utilizando a SuperHeroAPI (https://superheroapi.com/).
+A Levpay é do ramo de meios de pagamentos e tem como maior meta atender com excelência os seus clientes e parceiros, por isso, estamos procurando profissionais que gostem de impactar a vida de outras pessoas especialmente através da tecnologia e que queiram crescer junto com a empresa.
+
+Nossa equipe de engenharia é 100% remoto e usamos as seguintes tecnologias:
+- Golang, Angular, PostgreSQL, MongoDB, AMQP
+- Containers, Continuous Delivery, TDD
+
+# Como faço para trabalhar como desenvolvedor na Levpay?
+
+1. Envie um email para rh@levpay.com contendo:
+    - Assunto: golang developer
+    - Corpo: Github / LinkedIn / Curriculo / breve texto sobre sua experiência profissional
+2. Faça um fork (ou clone) esse repositório
+3. Complete o desafio abaixo no seu tempo
+4. Nos envie o desafio da forma que lhe for conveniente - email ou pull request.
+
+# Desafio
+## Golang Developer
+Para o desafio gostaríamos que você crie uma API inspirada em super heróis e vilões para servir um jogo utilizando a SuperHeroAPI (https://superheroapi.com/).
 
 ## Requisitos
 
-A API deve ser escrita em **Golang** e utilizar **PostgreSQL** como armazenamento.
+A API deve ser escrita em **Golang** e utilizar **PostgreSQL** como armazenamento de dados.
 
 ### Gerais
 Através da API deve ser possível:
@@ -33,8 +49,9 @@ Através da API deve ser possível:
     - lista de grupos em que tal super está associado
     - número de parentes
 
-## Avaliação
-A ideia aqui é entender como você toma suas decisões e como você desenvolve através de multiplas funcionalidades.
+## Como será a avaliação
+
+A ideia aqui é entender como você toma suas decisões frente a certas adversidades e como você desenvolve através de multiplas funcionalidades.
 
 Pontos que vamos avaliar:
 - Commits
