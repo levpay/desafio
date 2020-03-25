@@ -19,6 +19,7 @@ Através da API deve ser possível:
 
 ### Específicos
 - API deve seguir a arquitetura [REST](https://restfulapi.net/)
+- API deve seguir os principios do [12 factor app](https://12factor.net/pt_br/)
 - Cada super deve ser cadastrado somente a partir do seu `name`.
 - A pesquisa por um super deve conter os seguintes campos:
     - uuid
