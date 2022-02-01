@@ -2,6 +2,7 @@ package main
 
 import (
 	"desafio/config"
+	"desafio/data"
 	"desafio/routes"
 	"log"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 )
 
 func main() {
+	data.OpenDBConnection()
 	router := routes.InitRoutes()
 	n := negroni.Classic()
 	n.UseHandler(router)

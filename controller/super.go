@@ -2,12 +2,16 @@ package controller
 
 import (
 	"desafio/config"
+	"desafio/data"
 	"desafio/models"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
+
+	"github.com/google/uuid"
 )
 
 const (
@@ -18,6 +22,19 @@ var (
 	apiSearchPath = fmt.Sprintf(apiPath, config.Env.APIKey)
 )
 
+func insertUUIDtoSuper(supers models.HeroAPIResponse) []models.Super {
+	var superSlice []models.Super
+	for _, super := range supers.Results {
+		newUUID := uuid.New()
+		newSuper := models.Super{
+			HeroAPIResults: super,
+			UUID:           newUUID.String(),
+		}
+		superSlice = append(superSlice, newSuper)
+	}
+	return superSlice
+}
+
 func CreateSuper(rw http.ResponseWriter, r *http.Request) {
 	superName := r.FormValue("name")
 
@@ -26,16 +43,33 @@ func CreateSuper(rw http.ResponseWriter, r *http.Request) {
 		log.Println("Error accessing external API")
 	}
 
-	var response models.HeroAPIResponse
-	data, err := ioutil.ReadAll(apiResponse.Body)
+	var heroAPIResponse models.HeroAPIResponse
+	responseData, err := ioutil.ReadAll(apiResponse.Body)
 	if err != nil {
 		log.Println("Error reading API response")
 	}
+	json.Unmarshal(responseData, &heroAPIResponse)
 
-	json.Unmarshal(data, &response)
-	log.Printf("Returned objects: %v", len(response.Results))
+	supers := insertUUIDtoSuper(heroAPIResponse)
 
-	stringResponse, _ := json.Marshal(response)
+	err = data.InsertSuper(supers)
+	if err != nil {
+		log.Printf("Error inserting to database: %s\n", err)
+	}
+	log.Printf("Supers inserted: %v\n", len(supers))
 
-	rw.Write([]byte(stringResponse))
+	response := map[string]string{
+		"status":        "success",
+		"created-count": strconv.Itoa(len(supers)),
+	}
+
+	responseJSON, err := json.Marshal(response)
+	if err != nil {
+		log.Println("Error unmarshaling response")
+		rw.Write([]byte("Error! Could not insert to database"))
+		return
+	}
+
+	rw.Write(responseJSON)
+
 }

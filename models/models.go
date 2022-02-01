@@ -21,7 +21,8 @@ type Powerstats struct {
 }
 
 type Biography struct {
-	FullName string `json:"full-name"`
+	FullName  string `json:"full-name"`
+	Alignment string `json:"alignment"`
 }
 
 type Work struct {
@@ -35,4 +36,9 @@ type Connections struct {
 
 type Image struct {
 	URL string `json:"url"`
+}
+
+type Super struct {
+	HeroAPIResults
+	UUID string `json:"uuid"`
 }

@@ -7,9 +7,11 @@ import (
 )
 
 type AppConfig struct {
-	DBUser     string `env:"POSTGRES_USER"`
-	DBPassword string `env:"POSTGRES_PASSWORD"`
-	DBName     string `env:"POSTGRES_USER"`
+	DBUser     string `env:"POSTGRES_USER" envDefault:"placeholder-user"`
+	DBPassword string `env:"POSTGRES_PASSWORD" envDefault:"placeholder-password"`
+	DBName     string `env:"POSTGRES_USER" envDefault:"challenge"`
+	DBPort     string `env:"POSTGRES_PORT" envDefault:"5432"`
+	DBHost     string `env:"POSTGRES_HOST" envDefault:"localhost"`
 	ServerPort string `env:"SERVER_PORT" envDefault:"3000"`
 	APIKey     string `env:"API_KEY" envDefault:"4745594135527281"`
 }
