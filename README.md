@@ -9,7 +9,7 @@ A API deve ser escrita em **Golang** e utilizar **PostgreSQL** como armazenament
 
 ### Gerais
 Através da API deve ser possível:
-- Cadastrar um Super/Vilão
+- Cadastrar um Super/Vilão √
 - Listar todos os Super's cadastrados
 - Listar apenas os Super Heróis
 - Listar apenas os Super Vilões

@@ -73,3 +73,10 @@ func CreateSuper(rw http.ResponseWriter, r *http.Request) {
 	rw.Write(responseJSON)
 
 }
+
+func ListAllSupers(rw http.ResponseWriter, r *http.Request) {
+	superSlice := data.GetSupers(nil, nil)
+	supersJson := models.CreateListSupersResponse(superSlice)
+
+	rw.Write(supersJson)
+}
