@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"strings"
 
 	_ "github.com/lib/pq"
 )
@@ -90,6 +91,10 @@ func GetSupers(args []string, filters []interface{}) []models.Super {
 		if err := rows.Err(); err != nil {
 			log.Printf("Error querying database: %s", err)
 		}
+
+		splitConnections := strings.Split(groupConnections, ",")
+		splitRelatives := strings.SplitAfter(relatives, "),")
+
 		super := models.Super{
 			HeroAPIResults: models.HeroAPIResults{
 				Name: heroName,
@@ -105,8 +110,8 @@ func GetSupers(args []string, filters []interface{}) []models.Super {
 					Occupation: occupation,
 				},
 				Connections: models.Connections{
-					GroupAffiliations: groupConnections,
-					Relatives:         relatives,
+					GroupAffiliations: splitConnections,
+					Relatives:         splitRelatives,
 				},
 				Image: models.Image{
 					URL: image,

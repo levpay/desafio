@@ -29,8 +29,8 @@ type Work struct {
 }
 
 type Connections struct {
-	GroupAffiliations string `json:"group-affiliation"`
-	Relatives         string `json:"relatives"`
+	GroupAffiliations []string `json:"group-affiliation"`
+	Relatives         []string `json:"relatives"`
 }
 
 type Image struct {
