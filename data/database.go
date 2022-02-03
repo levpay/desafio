@@ -63,8 +63,6 @@ func GetSupers(args []string, filters []interface{}) []models.SuperResponse {
 	}
 	stmt += ";"
 
-	fmt.Println("STMT**********:", stmt)
-
 	rows, err := DB.Query(stmt, filters...)
 	if err != nil {
 		log.Printf("Error querying database: %s", err)
@@ -127,8 +125,6 @@ func DeleteSupers(uuids []string) (int, error) {
 		index++
 	}
 	stmt += ";"
-
-	log.Println(stmt)
 
 	result, err := DB.Exec(stmt)
 	if err != nil {
