@@ -6,7 +6,6 @@ type HeroAPIResponse struct {
 }
 
 type HeroAPIResults struct {
-	ID          string      `json:"id"`
 	Name        string      `json:"name"`
 	Powerstats  Powerstats  `json:"powerstats"`
 	Biography   Biography   `json:"biography"`

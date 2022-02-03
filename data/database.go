@@ -46,7 +46,7 @@ func InsertSuper(supers []models.Super) error {
 	return nil
 }
 
-func GetSupers(args []string, filters []string) []models.Super {
+func GetSupers(args []string, filters []interface{}) []models.Super {
 	var supers []models.Super
 	stmt := `SELECT uuid, hero_name, full_name, alignment, intelligence, power, occupation, image, group_connections, relatives FROM supers`
 
@@ -65,12 +65,11 @@ func GetSupers(args []string, filters []string) []models.Super {
 
 	fmt.Println("STMT**********:", stmt)
 
-	rows, err := DB.Query(stmt, filters)
+	rows, err := DB.Query(stmt, filters...)
 	if err != nil {
 		log.Printf("Error querying database: %s", err)
 	}
 	defer rows.Close()
-	fmt.Printf("%+v\n", rows)
 
 	for rows.Next() {
 		var (
@@ -115,6 +114,7 @@ func GetSupers(args []string, filters []string) []models.Super {
 			},
 			UUID: uuid,
 		}
+		fmt.Printf("super: %+v", super)
 		supers = append(supers, super)
 	}
 	return supers

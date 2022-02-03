@@ -6,14 +6,14 @@ import (
 )
 
 type ListAllSupersResponse struct {
-	status string
-	results []Super
+	Status  string  `json:"status"`
+	Results []Super `json:"results"`
 }
 
 func CreateListSupersResponse(supers []Super) []byte {
 	response := ListAllSupersResponse{
-		status: "success",
-		results: supers,
+		Status:  "success",
+		Results: supers,
 	}
 	responseByte, err := json.Marshal(response)
 	if err != nil {
