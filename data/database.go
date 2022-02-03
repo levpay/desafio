@@ -53,11 +53,11 @@ func GetSupers(args []string, filters []interface{}) []models.Super {
 	if len(filters) > 0 {
 		for index := range filters {
 			if index == 0 {
-				stmt += " WHERE"
+				stmt += " WHERE "
 			} else {
-				stmt += "AND"
+				stmt += "AND "
 			}
-			stmt += args[index] + " = $" + strconv.Itoa(index)
+			stmt += args[index] + " = $" + strconv.Itoa(index+1)
 		}
 	}
 

@@ -81,3 +81,21 @@ func ListAllSupers(rw http.ResponseWriter, r *http.Request) {
 
 	rw.Write(supersJson)
 }
+
+func ListHeroes(rw http.ResponseWriter, r *http.Request) {
+	args := []string{"alignment"}
+	filter := []interface{}{"good"}
+	superSlice := data.GetSupers(args, filter)
+	superJson := models.CreateListSupersResponse(superSlice)
+
+	rw.Write(superJson)
+}
+
+func ListVillains(rw http.ResponseWriter, r *http.Request) {
+	args := []string{"alignment"}
+	filter := []interface{}{"bad"}
+	superSlice := data.GetSupers(args, filter)
+	superJson := models.CreateListSupersResponse(superSlice)
+
+	rw.Write(superJson)
+}
