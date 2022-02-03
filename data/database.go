@@ -32,7 +32,7 @@ func OpenDBConnection() {
 	DB = db
 }
 
-func InsertSuper(supers []models.Super) error {
+func InsertSuper(supers []models.SuperInsert) error {
 	for _, super := range supers {
 		log.Printf("Inserting %s\n", super.Name)
 		stmt := `INSERT INTO supers (uuid, hero_name, full_name, alignment, intelligence, power, occupation, image, group_connections, relatives)
@@ -47,8 +47,8 @@ func InsertSuper(supers []models.Super) error {
 	return nil
 }
 
-func GetSupers(args []string, filters []interface{}) []models.Super {
-	var supers []models.Super
+func GetSupers(args []string, filters []interface{}) []models.SuperResponse {
+	var supers []models.SuperResponse
 	stmt := `SELECT uuid, hero_name, full_name, alignment, intelligence, power, occupation, image, group_connections, relatives FROM supers`
 
 	if len(filters) > 0 {
@@ -58,10 +58,9 @@ func GetSupers(args []string, filters []interface{}) []models.Super {
 			} else {
 				stmt += "AND "
 			}
-			stmt += args[index] + " = $" + strconv.Itoa(index+1)
+			stmt += "LOWER(" + args[index] + ")" + " = LOWER($" + strconv.Itoa(index+1) + ")"
 		}
 	}
-
 	stmt += ";"
 
 	fmt.Println("STMT**********:", stmt)
@@ -92,35 +91,55 @@ func GetSupers(args []string, filters []interface{}) []models.Super {
 			log.Printf("Error querying database: %s", err)
 		}
 
-		splitConnections := strings.Split(groupConnections, ",")
+		splitConnections := strings.Split(groupConnections, ", ")
 		splitRelatives := strings.SplitAfter(relatives, "),")
 
-		super := models.Super{
-			HeroAPIResults: models.HeroAPIResults{
-				Name: heroName,
-				Powerstats: models.Powerstats{
-					Intelligence: intelligence,
-					Power:        power,
-				},
-				Biography: models.Biography{
-					FullName:  fullName,
-					Alignment: alignment,
-				},
-				Work: models.Work{
-					Occupation: occupation,
-				},
-				Connections: models.Connections{
-					GroupAffiliations: splitConnections,
-					Relatives:         splitRelatives,
-				},
-				Image: models.Image{
-					URL: image,
-				},
-			},
+		super := models.SuperResponse{
 			UUID: uuid,
+			Name: heroName,
+			Powerstats: models.Powerstats{
+				Intelligence: intelligence,
+				Power:        power,
+			},
+			Biography: models.Biography{
+				FullName:  fullName,
+				Alignment: alignment,
+			},
+			Occupation:        occupation,
+			RelativesCount:    len(splitRelatives),
+			GroupAffiliations: splitConnections,
+			Image:             image,
 		}
 		fmt.Printf("super: %+v", super)
 		supers = append(supers, super)
 	}
 	return supers
+}
+
+func DeleteSupers(uuids []string) (int, error) {
+	stmt := "DELETE FROM supers WHERE uuid="
+	index := 0
+	for _, uuid := range uuids {
+		if index > 0 {
+			stmt += " OR uuid="
+		}
+		stmt += "'" + uuid + "'"
+		index++
+	}
+	stmt += ";"
+
+	log.Println(stmt)
+
+	result, err := DB.Exec(stmt)
+	if err != nil {
+		return 0, fmt.Errorf("error deleting supers with UUIDs '%s': %s", strings.Join(uuids, ", "), err)
+	}
+
+	deletedCount, err := result.RowsAffected()
+	if err != nil {
+		return int(deletedCount), fmt.Errorf("error counting affected rows: %s", err)
+	}
+
+	return int(deletedCount), nil
+
 }
