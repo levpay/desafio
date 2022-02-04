@@ -11,3 +11,5 @@ create-db-schema:
 build:
 	docker build -t challenge:latest .
 
+test:
+	go test -v ./...

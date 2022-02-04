@@ -32,19 +32,21 @@ func OpenDBConnection() {
 	DB = db
 }
 
-func InsertSuper(supers []models.SuperInsert) error {
+func InsertSuper(supers []models.SuperInsert) (int, error) {
+	totalInsertedCount := 0
 	for _, super := range supers {
-		log.Printf("Inserting %s\n", super.Name)
 		stmt := `INSERT INTO supers (uuid, hero_name, full_name, alignment, intelligence, power, occupation, image, group_connections, relatives)
 			VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`
+		log.Printf("Inserting %s\n", super.Name)
 		result, err := DB.Exec(stmt, super.UUID, super.Name, super.Biography.FullName, super.Biography.Alignment, super.Powerstats.Intelligence, super.Powerstats.Power,
 			super.Work.Occupation, super.Image.URL, super.Connections.GroupAffiliations, super.Connections.Relatives)
 		if err != nil {
-			return fmt.Errorf("error inserting super '%s': %s", super.Name, err)
+			return 0, fmt.Errorf("error inserting super '%s': %s", super.Name, err)
 		}
-		log.Printf("Inserted: %+v", result)
+		insertedCount, _ := result.RowsAffected()
+		totalInsertedCount += int(insertedCount)
 	}
-	return nil
+	return totalInsertedCount, nil
 }
 
 func GetSupers(args []string, filters []interface{}) []models.SuperResponse {
@@ -108,7 +110,6 @@ func GetSupers(args []string, filters []interface{}) []models.SuperResponse {
 			GroupAffiliations: splitConnections,
 			Image:             image,
 		}
-		fmt.Printf("super: %+v", super)
 		supers = append(supers, super)
 	}
 	return supers
@@ -133,7 +134,7 @@ func DeleteSupers(uuids []string) (int, error) {
 
 	deletedCount, err := result.RowsAffected()
 	if err != nil {
-		return int(deletedCount), fmt.Errorf("error counting affected rows: %s", err)
+		return 0, fmt.Errorf("error counting affected rows: %s", err)
 	}
 
 	return int(deletedCount), nil

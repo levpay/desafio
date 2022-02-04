@@ -53,7 +53,7 @@ func CreateSuper(rw http.ResponseWriter, r *http.Request) {
 
 	supers := insertUUIDtoSuper(heroAPIResponse)
 
-	err = data.InsertSuper(supers)
+	createdCount, err := data.InsertSuper(supers)
 	if err != nil {
 		log.Printf("Error inserting to database: %s\n", err)
 	}
@@ -61,7 +61,7 @@ func CreateSuper(rw http.ResponseWriter, r *http.Request) {
 
 	response := map[string]string{
 		"status":        "success",
-		"created-count": strconv.Itoa(len(supers)),
+		"created-count": strconv.Itoa(createdCount),
 	}
 
 	responseJSON, err := json.Marshal(response)
@@ -78,6 +78,7 @@ func CreateSuper(rw http.ResponseWriter, r *http.Request) {
 func ListAllSupers(rw http.ResponseWriter, r *http.Request) {
 	superSlice := data.GetSupers(nil, nil)
 	supersJson := models.CreateListSupersResponse(superSlice)
+	log.Printf("Response: %s", string(supersJson))
 
 	rw.Write(supersJson)
 }
